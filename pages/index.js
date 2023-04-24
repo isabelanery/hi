@@ -1,21 +1,31 @@
-import { Head } from "next/head";
-import MyLayout, { siteTitle } from "../components/my_layout";
-import utilStyles from "../styles/utils.module.css";
 import Link from "next/link";
+import MyLayout from "../components/my_layout";
+import utilStyles from "../styles/utils.module.css";
+import { getOnePieceData } from "../lib/get_one_piece_data";
 
-export default function Home() {
+export async function getStaticProps() {
+  const allHakis = await getOnePieceData('hakis');
+  return {
+    props: {
+      allHakis,
+    },
+  };
+}
+
+export default function Home ({ allHakis }) { 
   return (
     <MyLayout home>
       <section className={utilStyles.headingMd}>
         <Link href="battles/first-battle">
           <p>Fight Log</p>
         </Link>
-
-        <p>
-          (This is a sample website - you’ll be building a site like this on{' '}
-          <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
-        </p>
-      </section>
+        </section>
+        
+        <h2>
+          <Link href="hakis">
+            <p>Hakis</p>
+          </Link>
+        </h2>
     </MyLayout>
   );
 }
